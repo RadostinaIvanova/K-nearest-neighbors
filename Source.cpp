@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 const size_t SIZE = 3;
 size_t VALUE = 200;
 
@@ -24,15 +25,31 @@ double calcDist1(double training[], double uncategorized[]) {
 //substracts some given training example characterstics and the uncategorized and then using these as a measurement the following way 
 //if they are not the same is 0 and if is something other than d is the result of subtraction multiplied by 100
 //the sum of both
-double calcDist1(double training[], double uncategorized[]) {
+double calcDist2(std::vector<double> training, std::vector<double> uncategorized) {
 	double x = training[0] - uncategorized[0];
-	int y = training[1] - uncategorized[1];
-	double d = 0;
-	return abs(x) + d * 100;
+	double y = training[1] - uncategorized[1];
+	return abs(x) + abs(y) * 100;
+}
+
+//void printVector(std::vector<double> vec) {
+//	for (auto it = vec.begin(); it != vec.end(); it++) {
+//		std::cout << *it << " "; {}
+//	}
+//}
+
+void getAllDistances(std::vector<std::vector<double>>  trainingData, std::vector<double> uncategorized) {
+	std::pair<double, std::vector<double>> allDistancesAndRows;
+	for (auto it = trainingData.begin(); it != trainingData.end(); it++) {
+
+		allDistancesAndRows.first = calcDist2(*it, uncategorized);
+		allDistancesAndRows.second = *it;
+
 }
 int main() {
-	double training[SIZE] = { 1000, 3, 0 };
-	double uncategorized[SIZE] = { 1200, 4, 1 };
-	std::cout << calcDist1(training, uncategorized);
+	std::vector<double> uncategorized = { 1200, 4, 1 };
+	std::vector<std::vector<double>> training = { { 1500, 2, 0 },
+												 { 1000, 2, 1 },
+												 { 1740, 3, 0 } };
+	getAllDistances(training, uncategorized);
 	return 0;
 }
