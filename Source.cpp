@@ -6,8 +6,7 @@ size_t VALUE = 200;
 //calculate distance using the substraction of the income of the uncategorized company and the uncategorized one
 //and some given training example plus the result of Hamming distance of the team characterstics of both teams	i.e if the charatestics are the same than is 0 
 //if they are not the same then the value is the average of training data income / 3
-
-double calcDist1(double training[], double uncategorized[]) {
+double calcDist1(std::vector<double> training, std::vector<double> uncategorized) {
 	double x = training[0] - uncategorized[0];
 	bool y = training[1] == uncategorized[1];
 	double d = 0;
@@ -17,8 +16,7 @@ double calcDist1(double training[], double uncategorized[]) {
 	else {
 		d = VALUE;
 	}
-	return abs(x) + d;
-}
+	return ab
 
 //calculate distance using those above:
 //substracts the income of the some given training example and the uncategorized company
@@ -41,7 +39,7 @@ void getAllDistances(std::vector<std::vector<double>>  trainingData, std::vector
 	std::pair<double, std::vector<double>> allDistancesAndRows;
 	for (auto it = trainingData.begin(); it != trainingData.end(); it++) {
 
-		allDistancesAndRows.first = calcDist2(*it, uncategorized);
+		allDistancesAndRows.first = calcDist1(*it, uncategorized);
 		allDistancesAndRows.second = *it;
 
 }
