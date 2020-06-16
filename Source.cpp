@@ -1,11 +1,15 @@
 #include <iostream>
 #include <vector>
+#include <algorithm> 
+
 const size_t SIZE = 3;
 size_t VALUE = 200;
+
 
 //calculate distance using the substraction of the income of the uncategorized company and the uncategorized one
 //and some given training example plus the result of Hamming distance of the team characterstics of both teams	i.e if the charatestics are the same than is 0 
 //if they are not the same then the value is the average of training data income / 3
+
 double calcDist1(std::vector<double> training, std::vector<double> uncategorized) {
 	double x = training[0] - uncategorized[0];
 	bool y = training[1] == uncategorized[1];
@@ -16,7 +20,8 @@ double calcDist1(std::vector<double> training, std::vector<double> uncategorized
 	else {
 		d = VALUE;
 	}
-	return ab
+	return abs(x) + d;
+}
 
 //calculate distance using those above:
 //substracts the income of the some given training example and the uncategorized company
@@ -29,24 +34,49 @@ double calcDist2(std::vector<double> training, std::vector<double> uncategorized
 	return abs(x) + abs(y) * 100;
 }
 
-//void printVector(std::vector<double> vec) {
-//	for (auto it = vec.begin(); it != vec.end(); it++) {
-//		std::cout << *it << " "; {}
-//	}
-//}
+bool sortByFst(const std::pair<double, std::vector<double>>& a,
+	const std::pair<double, std::vector<double>>& b) {
+	return (a.first < b.first);
+};
+
+void printVector(std::vector<double> vec) {
+	for (auto it = vec.begin(); it != vec.end(); it++) {
+		std::cout << *it << " "; {}
+	}
+}
+
+void printPairs(std::pair<double, std::vector<double>> p) {
+	std::cout << p.first << " ; ";
+	printVector(p.second);
+	std::cout << std::endl;
+}
+
+void printVecOfPairs(std::vector<std::pair<double, std::vector<double>>> vec) {
+	for (auto it = vec.begin(); it != vec.end(); it++) {
+		printPairs(*it);
+	}
+}
 
 void getAllDistances(std::vector<std::vector<double>>  trainingData, std::vector<double> uncategorized) {
-	std::pair<double, std::vector<double>> allDistancesAndRows;
+	std::vector<std::pair<double, std::vector<double>>> allDistAndTrainingExamples;
 	for (auto it = trainingData.begin(); it != trainingData.end(); it++) {
+		std::pair<double, std::vector <double>> distTrainingExample;
+		distTrainingExample.first = calcDist1(*it, uncategorized);
+		distTrainingExample.second = *it;
+		allDistAndTrainingExamples.push_back(distTrainingExample);
+	}
+	printVecOfPairs(allDistAndTrainingExamples);
+	std::sort(allDistAndTrainingExamples.begin(), allDistAndTrainingExamples.end(), sortByFst);
+	printVecOfPairs(allDistAndTrainingExamples);
 
-		allDistancesAndRows.first = calcDist1(*it, uncategorized);
-		allDistancesAndRows.second = *it;
 
 }
 int main() {
+	//std::vector<double> training = { 1000, 2, 0 };
 	std::vector<double> uncategorized = { 1200, 4, 1 };
+	//std::cout << calcDist2(training, uncategorized);
 	std::vector<std::vector<double>> training = { { 1500, 2, 0 },
-												 { 1000, 2, 1 },
+												 { 1000, 4, 1 },
 												 { 1740, 3, 0 } };
 	getAllDistances(training, uncategorized);
 	return 0;
