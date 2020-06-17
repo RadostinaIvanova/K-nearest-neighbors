@@ -39,8 +39,8 @@ std::vector<closenessPair> findKNN(size_t k,
 {
 	std::vector<closenessPair> allDistAndObs;
 	for (auto it = trainingSet.begin(); it != trainingSet.end(); it++) { //caluclates all distances from the test to some example of the training set making a pair of it 
-		closenessPair distAndObservation;							     // the pair first member is the distance itself and the second parameter is the observation tuple
-		distAndObservation.first = calFunc(*it, test);					//after all that puts those pairs in a vector
+		closenessPair distAndObservation;			     // the pair first member is the distance itself and the second parameter is the observation tuple
+		distAndObservation.first = calFunc(*it, test);		    //after all that puts those pairs in a vector
 		distAndObservation.second = *it;
 		allDistAndObs.push_back(distAndObservation);
 	}
