@@ -22,6 +22,7 @@ void printVecOfPairs(std::vector<closenessPair> vec) {
 	}
 }
 
+
 int main() {
 	std::cout << "Input test example: ";
 	double income;
@@ -43,6 +44,9 @@ int main() {
 		trainingExample.push_back(modifyCharacteristics(line[1]));
 		trainingExample.push_back(stod(line[2]));
 		trainingSet.push_back(trainingExample);
+		trainingExample.pop_back();
+		trainingExample.pop_back();
+		trainingExample.pop_back();
 	}
 
 	trainingSet.push_back(uncategorized);
@@ -50,7 +54,7 @@ int main() {
 	normalize(trainingSet, 1);
 	std::vector<double> test = trainingSet.back();
 	trainingSet.pop_back();
-	knnClassification(10, trainingSet, test, euclideanDist);
+	knnClassification(13, trainingSet, test, calcDistWithHamming);
 	if (test[2]) {
 		std::cout << "Classified as Successful company";
 	}
