@@ -1,30 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <algorithm> 
-
-const size_t SIZE = 3;
-const int successRate = 2;
-
-//a pair with first member represents the distance from the test  
-using closenessPair = std::pair<double, std::vector<double>>;
-
-void printVector(std::vector<double> vec) {
-	for (auto it = vec.begin(); it != vec.end(); it++) {
-		std::cout << *it << " "; {}
-	}
-}
-
-void printPairs(closenessPair p) {
-	std::cout << p.first << " ; ";
-	printVector(p.second);
-	std::cout << std::endl;
-}
-
-void printVecOfPairs(std::vector<closenessPair> vec) {
-	for (auto it = vec.begin(); it != vec.end(); it++) {
-		printPairs(*it);
-	}
-}
+#include "KnnAlgorithm.h"
 
 //calculate distance using the substraction of the income of the test tuple and a observation one
 //and some given training example plus the result of Hamming distance of the team characterstics of both teams	i.e if the charatestics are the same than is 0 
@@ -44,7 +18,7 @@ double calcDist1(std::vector<double> observation, std::vector<double> test) {
 
 //calculate distance using those above:
 //substracts the income of the some given observation i.e training example and the test tuple
-//substracts some given observation characterstics and the test tuple 
+//substracts some given observation characterstics and the test tuple and then using these as a measurement the following way 
 //using euclidean formula
 double calcDist2(std::vector<double> observation, std::vector<double> test) {
 	double x = observation[0] - test[0];
@@ -85,7 +59,6 @@ void knnClassification(size_t k,
 	int bankruptcyCnt = 0;
 	int successCnt = 0;
 	std::vector<closenessPair> knn = findKNN(k, trainingSet, test, calFunc);
-	printVecOfPairs(knn);
 	for (auto it = knn.begin(); it != knn.end(); it++) {
 		double bs = it->second[successRate];
 		if (bs) {
@@ -129,19 +102,4 @@ void normalise(std::vector<std::vector<double>>& trainingSet, size_t category) {
 	for (auto it = trainingSet.begin(); it != trainingSet.end(); it++) {
 		(*it)[category] = ((*it)[category] - min) / (max - min);
 	}
-}
-int main() {
-	std::vector<double> uncategorized = { 1200, 4, 1 };
-	std::vector<std::vector<double>> training = { { 1200, 4, 0 } ,
-												 { 1500, 2, 0 },
-												 { 1000, 4, 1 },
-												 { 1740, 3, 0 },
-												 { 1240, 1, 1} };
-	normalise(training, 0);
-	normalise(training, 1);
-	std::vector<double> test = training.back();
-	training.pop_back();
-	knnClassification(3, training, test, calcDist2);
-	printVector(test);
-	return 0;
 }
