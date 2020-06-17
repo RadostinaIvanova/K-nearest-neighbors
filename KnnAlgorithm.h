@@ -16,9 +16,9 @@ double euclideanDist(std::vector<double> observation, std::vector<double> test);
 bool sortByFst(const closenessPair& a, const closenessPair& b);
 
 std::vector<closenessPair> findKNN(size_t k,
-								  std::vector<std::vector<double>>  trainingSet,
-								  std::vector<double> test,
-								  double calFunc(std::vector<double>, std::vector<double>));
+				  std::vector<std::vector<double>>  trainingSet,
+				  std::vector<double> test,
+				  double calFunc(std::vector<double>, std::vector<double>));
 void knnClassification(size_t k,
 	std::vector<std::vector<double>> trainingSet,
 	std::vector<double>& test,
