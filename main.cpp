@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm> 
 #include "KnnAlgorithm.h"
+#include "TrainingSet.h"
 
 void printVector(std::vector<double> vec) {
 	for (auto it = vec.begin(); it != vec.end(); it++) {
@@ -22,17 +23,39 @@ void printVecOfPairs(std::vector<closenessPair> vec) {
 }
 
 int main() {
-	std::vector<double> uncategorized = { 1200, 4, 1 };
-	std::vector<std::vector<double>> training = { { 1200, 4, 0 } ,
-												 { 1500, 2, 0 },
-												 { 1000, 4, 1 },
-												 { 1740, 3, 0 },
-												 { 1240, 1, 1}};
-	normalise(training, 0);
-	normalise(training, 1);
-	std::vector<double> test = training.back();
-	training.pop_back();
-	knnClassification(3, training, test, calcDist2);
-	printVector(test);
+	std::cout << "Input test example: ";
+	double income;
+	std::string characteristics;
+	double successRate = 0;
+	std::cin >> income >> characteristics;
+	std::vector<double> uncategorized;
+	uncategorized.push_back(income);
+	uncategorized.push_back(modifyCharacteristics(characteristics));
+	uncategorized.push_back(successRate);
+
+	const std::string path = "D:\\FMI\\Github-repos\\K-nearest-neighbors\\DATA.csv";;
+	std::vector<std::vector<std::string>> trainingExamplesAsText = getData(path);
+	std::vector<std::vector<double>> trainingSet;
+	std::vector<double> trainingExample;
+
+	for (std::vector<std::string> line : trainingExamplesAsText) {
+		trainingExample.push_back(stod(line[0]));
+		trainingExample.push_back(modifyCharacteristics(line[1]));
+		trainingExample.push_back(stod(line[2]));
+		trainingSet.push_back(trainingExample);
+	}
+
+	trainingSet.push_back(uncategorized);
+	normalize(trainingSet, 0);
+	normalize(trainingSet, 1);
+	std::vector<double> test = trainingSet.back();
+	trainingSet.pop_back();
+	knnClassification(10, trainingSet, test, euclideanDist);
+	if (test[2]) {
+		std::cout << "Classified as Successful company";
+	}
+	else {
+		std::cout << "Classified as bankrupt company";
+	}
 	return 0;
 }

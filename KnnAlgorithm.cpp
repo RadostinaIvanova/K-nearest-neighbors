@@ -3,7 +3,7 @@
 //calculate distance using the substraction of the income of the test tuple and a observation one
 //and some given training example plus the result of Hamming distance of the team characterstics of both teams	i.e if the charatestics are the same than is 0 
 //if they are not the same then the value is 1
-double calcDist1(std::vector<double> observation, std::vector<double> test) {
+double calcDistWithHamming(std::vector<double> observation, std::vector<double> test) {
 	double x = observation[0] - test[0];
 	bool y = observation[1] == test[1];
 	double d = 0;
@@ -20,7 +20,7 @@ double calcDist1(std::vector<double> observation, std::vector<double> test) {
 //substracts the income of the some given observation i.e training example and the test tuple
 //substracts some given observation characterstics and the test tuple and then using these as a measurement the following way 
 //using euclidean formula
-double calcDist2(std::vector<double> observation, std::vector<double> test) {
+double euclideanDist(std::vector<double> observation, std::vector<double> test) {
 	double x = observation[0] - test[0];
 	double y = observation[1] - test[1];
 	return sqrt(pow(abs(x), 2) + pow(abs(y), 2));
@@ -49,8 +49,7 @@ std::vector<closenessPair> findKNN(size_t k,
 	return knn;
 }
 
-
-//counts 
+ 
 void knnClassification(size_t k,
 	std::vector<std::vector<double>> trainingSet,
 	std::vector<double>& test,
@@ -95,7 +94,7 @@ void findMinMax(std::vector<std::vector<double>> training, double& min, double& 
 }
 
 //normalise categories with the following formula: current value - min value of the column/ max value - min value
-void normalise(std::vector<std::vector<double>>& trainingSet, size_t category) {
+void normalize(std::vector<std::vector<double>>& trainingSet, size_t category) {
 	double min;
 	double max;
 	findMinMax(trainingSet, min, max, category);

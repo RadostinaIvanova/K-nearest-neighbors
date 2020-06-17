@@ -9,9 +9,9 @@ const int successRate = 2;
 //a pair with first member represents the distance from the test  
 using closenessPair = std::pair<double, std::vector<double>>;
 
-double calcDist1(std::vector<double> observation, std::vector<double> test);
+double calcDistWithHamming(std::vector<double> observation, std::vector<double> test);
 
-double calcDist2(std::vector<double> observation, std::vector<double> test);
+double euclideanDist(std::vector<double> observation, std::vector<double> test);
 
 bool sortByFst(const closenessPair& a, const closenessPair& b);
 
@@ -26,7 +26,7 @@ void knnClassification(size_t k,
 
 void findMinMax(std::vector<std::vector<double>> training, double& min, double& max, size_t category);
 
-void normalise(std::vector<std::vector<double>>& trainingSet, size_t category);
+void normalize(std::vector<std::vector<double>>& trainingSet, size_t category);
 
 #endif 
 
