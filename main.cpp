@@ -48,13 +48,15 @@ int main() {
 		trainingExample.pop_back();
 		trainingExample.pop_back();
 	}
-
+	int K1 = sqrt(trainingSet.size());
+	int K2 = 9;
+	int K3 = 19;
 	trainingSet.push_back(uncategorized);
 	normalize(trainingSet, 0);
 	normalize(trainingSet, 1);
 	std::vector<double> test = trainingSet.back();
 	trainingSet.pop_back();
-	knnClassification(13, trainingSet, test, calcDistWithHamming);
+	knnClassification(K1, trainingSet, test, euclideanDist);
 	if (test[2]) {
 		std::cout << "Classified as Successful company";
 	}
